@@ -20,13 +20,6 @@ app.get("/", (req, res, next) => {
 app.use('/api/user', userRoutes);
 
 
-
-
-
-
-
-
-
 // Mongoose Set Up
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useUnifiedTopology', true);

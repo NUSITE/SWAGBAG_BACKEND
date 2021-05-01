@@ -56,5 +56,24 @@ const getUsers = async (req, res, next) => {
 
 //get Uers Ended
 
+//Delete User  Added
+
+const deleteUser = async (req, res, next) => {
+    console.log(req);
+    let id = req.params.id;
+    let user;
+    try {
+        user = await User.findByIdAndDelete(id);
+        if (deleteUser) {
+            res.json({"message" : "Successfully Deleted!!!"});
+        } else {
+            res.json({"message": "User Not found! Please check the details once again"});
+        }
+    } catch(error) {
+        res.json({"message" : "Unable to process! Please try after some time"});
+    }
+}
+
 exports.signup = signup;
 exports.getUsers = getUsers;
+exports.deleteUser = deleteUser;

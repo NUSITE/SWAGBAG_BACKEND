@@ -5,15 +5,18 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-
+const userRoutes = require('./routes/user-routes');
 
 //App Set Up
 const PORT = process.env.PORT || 3200;
 const app = express();
 
+app.use(express.json());
+
 app.get("/", (req, res, next) => {
-  res.json({ message: "Thotakura kattamma is watching" });
 });
+
+app.use('/api/user', userRoutes);
 
 
 

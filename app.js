@@ -14,6 +14,7 @@ const app = express();
 app.use(express.json());
 
 app.get("/", (req, res, next) => {
+  res.json({"message": "checking"});
 });
 
 app.use('/api/user', userRoutes);

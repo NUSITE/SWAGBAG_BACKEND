@@ -74,6 +74,30 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
+// Login User
+
+const loginUser = async (req, res, next) => {
+  console.log(req);
+  let {userEmail, password} = req.body;
+  let user;
+  try {
+    user = await User.findOne({userEmail: userEmail});
+  } catch(error) {
+    res.json({"message": "Unable to process! Please contact service team.."})
+  }
+
+  if (user) {
+    if (await bcrypt.compare(password, user.password)) {
+      return res.json({user});
+    } else {
+      res.json({"message": "Password Mismatched! Please try again"});
+    }
+  } else {
+    res.json({"message": 'User not found! Please try to sign up'})
+  }
+}
+
 exports.signup = signup;
 exports.getUsers = getUsers;
 exports.deleteUser = deleteUser;
+exports.loginUser = loginUser;

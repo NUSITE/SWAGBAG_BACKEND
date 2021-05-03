@@ -6,6 +6,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const userRoutes = require('./routes/user-routes');
+const productRoutes = require('./routes/product-routes');
 
 //App Set Up
 const PORT = process.env.PORT || 3200;
@@ -18,6 +19,7 @@ app.get("/", (req, res, next) => {
 });
 
 app.use('/api/user', userRoutes);
+app.use('/api/product', productRoutes);
 
 
 // Mongoose Set Up
@@ -27,7 +29,7 @@ mongoose
   .connect('mongodb+srv://SivatejaN:Srm@9963956295@cluster0.m6kqz.mongodb.net/SWAGBAG?retryWrites=true&w=majority')
   .then(() => {
     app.listen(PORT, () => {
-      console.log("Thotakura kattamma is watching");
+      console.log("Mongo connection passed");
     });
   })
   .catch((error) => {

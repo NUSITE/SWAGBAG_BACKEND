@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
-
+const uniqueValidator = require('mongoose-unique-validator');
 const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
     productTitle: {type: String, required: true},
+    productImage: {type: String},
     upc: {type: Number, required: true},
     unitCost: {type: Number, required: true},
     userordersPlaced: [{
@@ -13,7 +14,8 @@ const productSchema = new Schema({
     totalOrdersPlaced: {type: Number},
     productCountries: [],
     productFormats: [],
-    creator: {type: Number, required: true}
+    creator: {type: String, required: true},
+    currency: {type: String, required: true}
 })
-
+productSchema.plugin(uniqueValidator);
 module.exports = mongoose.model('Product', productSchema);

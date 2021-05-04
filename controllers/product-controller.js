@@ -2,10 +2,10 @@ const Product = require('../models/product-model');
 
 const addProduct = async (req, res, next) => {
     let {
-        productTitle, upc, unitCost, productCountries, productFormats, creator
+        productTitle, upc, unitCost, productCountries, productFormats, creator, currency
     } = req.body;
     let addedProduct = new Product({
-        productTitle, upc, unitCost, productCountries, productFormats, creator
+        productTitle, upc, unitCost, productCountries, productFormats, creator, currency
     });
     try {
         await addedProduct.save();

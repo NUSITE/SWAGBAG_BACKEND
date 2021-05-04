@@ -10,6 +10,10 @@ const userSchema = new schema({
         productId: {type: Number},
         productCount: {type: Number}
     }],
+    cartAddedProducts: [{
+        productId: {type: Number},
+        productCount: {type: Number}
+    }],
     addedProducts: [{type: Number}],
     totalPurchasedProductsCount: {type: Number},
     userEmail: {type: String, required: true},

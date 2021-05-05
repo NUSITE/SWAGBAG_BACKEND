@@ -12,6 +12,8 @@ const userSchema = new schema({
     }],
     cartAddedProducts: [{
         productId: {type: Number},
+        productCountrySelected: {type: String},
+        productFormatSelected: {type: String},
         productCount: {type: Number}
     }],
     addedProducts: [{type: Number}],

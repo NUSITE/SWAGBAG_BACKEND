@@ -1,5 +1,20 @@
 const Product = require("../models/product-model");
 
+// Get All the products list
+
+const getProducts = async (req, res, next) => {
+    let products;
+    try {
+        products = await Product.find({});
+    } catch (error) {
+        res.json({message: "Unable to process"});
+    }
+    res.json({
+        products: [...products],
+        message: "Successfull"
+    })
+}
+
 // Add Product
 const addProduct = async (req, res, next) => {
   let {
@@ -82,3 +97,4 @@ const searchProductAlongwithFormat = async (req, res, next) => {
 exports.addProduct = addProduct;
 exports.searchProduct = searchProduct;
 exports.searchProductAlongwithFormat = searchProductAlongwithFormat;
+exports.getProducts = getProducts;

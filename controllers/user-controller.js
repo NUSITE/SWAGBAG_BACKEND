@@ -65,12 +65,12 @@ const deleteUser = async (req, res, next) => {
     try {
         user = await User.findByIdAndDelete(id);
         if (deleteUser) {
-            res.json({"message" : "Successfully Deleted!!!"});
+            res.json({message : "Successfully Deleted!!!"});
         } else {
-            res.json({"message": "User Not found! Please check the details once again"});
+            res.json({message: "User Not found! Please check the details once again"});
         }
     } catch(error) {
-        res.json({"message" : "Unable to process! Please try after some time"});
+        res.json({message : "Unable to process! Please try after some time"});
     }
 }
 
@@ -83,17 +83,17 @@ const loginUser = async (req, res, next) => {
   try {
     user = await User.findOne({userEmail: userEmail});
   } catch(error) {
-    res.json({"message": "Unable to process! Please contact service team.."})
+    res.json({message: "Unable to process! Please contact service team.."})
   }
 
   if (user) {
     if (await bcrypt.compare(password, user.password)) {
       return res.json({user});
     } else {
-      res.json({"message": "Password Mismatched! Please try again"});
+      res.json({message: "Password Mismatched! Please try again"});
     }
   } else {
-    res.json({"message": 'User not found! Please try to sign up'})
+    res.json({message: 'User not found! Please try to sign up'})
   }
 }
 

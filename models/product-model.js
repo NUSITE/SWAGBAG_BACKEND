@@ -11,7 +11,7 @@ const productSchema = new Schema({
         id: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
         units: {type: Number}
     }],
-    totalOrdersPlaced: {type: Number},
+    totalOrdersPlaced: {type: Number, default: 0},
     productCountries: [],
     productFormats: [],
     creator: {type: String, required: true},

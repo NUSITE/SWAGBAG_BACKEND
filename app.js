@@ -7,11 +7,12 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const userRoutes = require('./routes/user-routes');
 const productRoutes = require('./routes/product-routes');
+const cors = require('cors');
 
 //App Set Up
 const PORT = process.env.PORT || 3200;
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res, next) => {

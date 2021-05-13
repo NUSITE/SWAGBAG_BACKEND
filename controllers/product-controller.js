@@ -35,10 +35,21 @@ const addProduct = async (req, res, next) => {
     creator,
     currency,
   });
+  let product;
   try {
+    product = await Product.findOne({upc: upc});
     await addedProduct.save();
   } catch (error) {
     res.json({ message: "Unable to add! Please contact support team" });
+  }
+  if (product) {
+    res.json({ message: "Already added! If you want, Please change upc" });
+  } else {
+    try {
+      await addedProduct.save();
+    } catch (error) {
+      res.json({ message: "Unable to add! Please contact support team" });
+    }
   }
   res.json({ message: "Successfully added" });
 };

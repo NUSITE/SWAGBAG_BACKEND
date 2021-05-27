@@ -22,11 +22,12 @@ app.use(express.json());
 const verifyToken = (req, res, next) => {
   const token = req.headers["x-access-token"];
   if (!token) {
-    res.json({"message": "Token Needed"});
+    // res.json({"message": "Token Needed"});
+    res.status(412).json({"message": "Token Needed"});
   } else {
     jwt.verify(token, "bearer", (error, decoded) => {
       if (error) {
-        res.json({"message": "wrong token"});
+        res.status(412).json({"message": "wrong token"});
       } else {
         next();
       }

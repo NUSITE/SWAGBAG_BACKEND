@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const userRoutes = require('./routes/user-routes');
 const productRoutes = require('./routes/product-routes');
+const jwt = require("jsonwebtoken");
 const cors = require('cors');
 
 //App Set Up
@@ -15,12 +16,32 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
+// Token Verification
+
+const verifyToken = (req, res, next) => {
+  const token = req.headers["x-access-token"];
+  if (!token) {
+    res.json({"message": "Token Needed"});
+  } else {
+    jwt.verify(token, "bearer", (error, decoded) => {
+      if (error) {
+        res.json({"message": "wrong token"});
+      } else {
+        next();
+      }
+    })
+  }
+}
+
+// Routes Started
+
 app.get("/", (req, res, next) => {
   res.json({"message": "checking"});
 });
 
 app.use('/api/user', userRoutes);
-app.use('/api/product', productRoutes);
+app.use('/api/product', verifyToken, productRoutes);
 
 
 // Mongoose Set Up

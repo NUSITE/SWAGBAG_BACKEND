@@ -1,5 +1,6 @@
 const User = require("../models/user-model");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 //Sign up Controller Started
 const signup = async (req, res, next) => {
@@ -88,7 +89,11 @@ const loginUser = async (req, res, next) => {
 
   if (user) {
     if (await bcrypt.compare(password, user.password)) {
-      return res.json({user});
+      const id = user._id;
+      const token = jwt.sign({id}, "bearer", {
+        expiresIn: 10000
+      });
+      return res.json({user, token});
     } else {
       res.json({message: "Password Mismatched! Please try again"});
     }

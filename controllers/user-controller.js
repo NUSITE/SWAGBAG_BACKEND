@@ -84,7 +84,7 @@ const loginUser = async (req, res, next) => {
   try {
     user = await User.findOne({userEmail: userEmail});
   } catch(error) {
-    res.json({message: "Unable to process! Please contact service team.."})
+    res.status(412).json({message: "Unable to process! Please contact service team.."})
   }
 
   if (user) {
@@ -93,12 +93,12 @@ const loginUser = async (req, res, next) => {
       const token = jwt.sign({id}, "bearer", {
         expiresIn: 10000
       });
-      return res.json({user, token});
+      return res.json({user, token, isAuth: true});
     } else {
-      res.json({message: "Password Mismatched! Please try again"});
+      res.status(412).json({message: "Password Mismatched! Please try again"});
     }
   } else {
-    res.json({message: 'User not found! Please try to sign up'})
+    res.status(412).json({message: 'User not found! Please try to sign up'})
   }
 }
 

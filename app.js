@@ -22,12 +22,12 @@ app.use(express.json());
 const verifyToken = (req, res, next) => {
   const token = req.headers["x-access-token"];
   if (!token) {
-    // res.json({"message": "Token Needed"});
-    res.status(412).json({"message": "Token Needed"});
+    // res.json({message: "Token Needed"});
+    res.status(412).json({message: "Token Needed", isAuth: false});
   } else {
     jwt.verify(token, "bearer", (error, decoded) => {
       if (error) {
-        res.status(412).json({"message": "wrong token"});
+        res.status(412).json({message: "wrong token", isAuth: false});
       } else {
         next();
       }
@@ -38,10 +38,14 @@ const verifyToken = (req, res, next) => {
 // Routes Started
 
 app.get("/", (req, res, next) => {
-  res.json({"message": "checking"});
+  res.json({message: "checking"});
 });
 
-app.use('/api/user', userRoutes);
+app.post("/api/verifyToken", verifyToken, (req, res, next) => {
+  res.json({isAuth: true});
+})
+
+app.use('/user', userRoutes);
 app.use('/api/product', verifyToken, productRoutes);
 
 

@@ -41,7 +41,7 @@ app.get("/", (req, res, next) => {
   res.json({message: "checking"});
 });
 
-app.post("/api/verifyToken", verifyToken, (req, res, next) => {
+app.get("/api/verifyToken", verifyToken, (req, res, next) => {
   res.json({isAuth: true});
 })
 

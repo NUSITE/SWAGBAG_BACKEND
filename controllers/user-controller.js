@@ -90,9 +90,7 @@ const loginUser = async (req, res, next) => {
   if (user) {
     if (await bcrypt.compare(password, user.password)) {
       const id = user._id;
-      const token = jwt.sign({id}, "bearer", {
-        expiresIn: 180
-      });
+      const token = jwt.sign({id}, "bearer");
       return res.json({user, token, isAuth: true});
     } else {
       res.status(412).json({message: "Password Mismatched! Please try again"});

@@ -26,6 +26,7 @@
     "git": "^0.1.5",
     "heroku": "^7.53.0",
     "jsonwebtoken": "^8.5.1",
+    "jwt-redis": "^6.0.0",
     "mongoose": "^5.12.6",
     "mongoose-unique-validator": "^2.0.3",
     "nodemon": "^2.0.7"

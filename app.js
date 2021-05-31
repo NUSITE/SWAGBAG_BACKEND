@@ -9,6 +9,7 @@ const userRoutes = require('./routes/user-routes');
 const productRoutes = require('./routes/product-routes');
 const jwt = require("jsonwebtoken");
 const cors = require('cors');
+const jwtr = require('jwt-redis').default;
 
 //App Set Up
 const PORT = process.env.PORT || 3200;
@@ -49,7 +50,12 @@ app.use('/user', userRoutes);
 app.use('/api/product', verifyToken, productRoutes);
 
 app.get('/api/logout', verifyToken, (req, res, next) => {
-  req.session.destroy();
+  req.session.destroy(err => {
+    if (err) {
+    return console.log(err);
+    }
+    res.redirect('/');
+    });
 })
 
 

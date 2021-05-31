@@ -48,6 +48,10 @@ app.get("/api/verifyToken", verifyToken, (req, res, next) => {
 app.use('/user', userRoutes);
 app.use('/api/product', verifyToken, productRoutes);
 
+app.get('/api/logout', verifyToken, (req, res, next) => {
+  req.destroy();
+})
+
 
 // Mongoose Set Up
 mongoose.set('useNewUrlParser', true);

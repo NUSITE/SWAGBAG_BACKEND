@@ -90,7 +90,7 @@ const loginUser = async (req, res, next) => {
   if (user) {
     if (await bcrypt.compare(password, user.password)) {
       const id = user._id;
-      const token = jwt.sign({id}, "bearer");
+      const token = jwt.sign({id}, "bearer", {expiresIn: 180});
       return res.json({user, token, isAuth: true});
     } else {
       res.status(412).json({message: "Password Mismatched! Please try again"});
@@ -100,7 +100,21 @@ const loginUser = async (req, res, next) => {
   }
 }
 
+
+const regenerateToken = (req, res, next) => {
+  try {
+    let id = req.params.id;
+    const token = jwt.sign({id}, "bearer", {
+      expiresIn: 180
+    });
+    res.status(200).json({token, message: "Successfully Generated"})
+  } catch(error) {
+    res.status(500).json({message: "Unable to generate!! Please try logging in..."})
+  }
+}
+
 exports.signup = signup;
 exports.getUsers = getUsers;
 exports.deleteUser = deleteUser;
 exports.loginUser = loginUser;
+exports.regenerateToken = regenerateToken;

@@ -9,6 +9,7 @@ const userRoutes = require('./routes/user-routes');
 const productRoutes = require('./routes/product-routes');
 const jwt = require("jsonwebtoken");
 const cors = require('cors');
+const session = require('express-session');
 const jwtr = require('jwt-redis').default;
 
 //App Set Up
@@ -16,6 +17,7 @@ const PORT = process.env.PORT || 3200;
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(session({resave: true,  saveUninitialized: true, secret: "bearer"}));
 
 
 // Token Verification
@@ -49,13 +51,19 @@ app.get("/api/verifyToken", verifyToken, (req, res, next) => {
 app.use('/user', userRoutes);
 app.use('/api/product', verifyToken, productRoutes);
 
-app.get('/api/logout', verifyToken, (req, res, next) => {
-  req.session.destroy(err => {
-    if (err) {
-    return console.log(err);
-    }
-    res.redirect('/');
-    });
+app.get('/logout', (req, res, next) => {
+  sessionData = req.session;
+    
+  sessionData.destroy(function(err) {
+      if(err){
+          msg = 'Error destroying session';
+          res.json(msg);
+      }else{
+          msg = 'Session destroy successfully';
+          console.log(msg)
+          res.json(msg);
+      }
+  });
 })
 
 

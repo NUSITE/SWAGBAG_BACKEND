@@ -38,7 +38,6 @@ const addProduct = async (req, res, next) => {
   let product;
   try {
     product = await Product.findOne({ upc: upc });
-    await addedProduct.save();
   } catch (error) {
     res.json({ message: "Unable to add! Please contact support team" });
   }

@@ -15,7 +15,7 @@ const productSchema = new Schema({
     productCountries: [],
     productFormats: [],
     creator: {type: String, required: true},
-    currency: {type: String, required: true}
+    currency: {type: String}
 })
 productSchema.plugin(uniqueValidator);
 module.exports = mongoose.model('Product', productSchema);

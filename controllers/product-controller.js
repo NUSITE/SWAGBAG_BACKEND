@@ -56,7 +56,7 @@ const addProduct = async (req, res, next) => {
 // Search Product
 
 const searchProduct = async (req, res, next) => {
-  console.log("Req", req.params.productName);
+  console.log("Req", req.params);
   let products;
   try {
     products = await (
@@ -79,26 +79,20 @@ const searchProduct = async (req, res, next) => {
 
 const searchProductAlongwithFormat = async (req, res, next) => {
   const { productFormat, productCountry, upc, productTitle } = req.params;
-  let products;
+  let products = [];
   try {
-    products = await (
-      await Product.find({})
-    ).filter((item) =>
-      upc
-        ? Number(item.upc) === Number(upc)
-        : item.productTitle
-            .toLowerCase()
-            .includes(productTitle.toLowerCase()) &&
-          item.productCountries.map(
-            (coun) =>
-              coun.toLowerCase().includes(productCountry.toLowerCase()) &&
-              item.productFormats.map((format) =>
-                format.toLowerCase().includes(productFormat.toLowerCase())
-              )
-          )
-    );
+    if (upc) {
+      products = await Product.find({upc:upc});
+    } else {
+      let allproducts = await Product.find({});
+      for (let product of allproducts) {
+        if (product.productTitle.toLowerCase().includes(productTitle.toLowerCase()) && product.productCountries.includes(productCountry) && product.productFormats.includes(productFormat)) {
+          products.push(product);
+        }
+      }
+    }
   } catch (error) {
-    res.json({ message: "Please try again after some time" });
+    res.status(400).json({ message: "Please try again after some time" });
   }
   res.json({
     productFormat: productFormat,
@@ -113,7 +107,6 @@ const deleteProduct = async (req, res, next) => {
   let product;
   try {
     product = await Product.findByIdAndDelete(id);
-    // getProducts();
   } catch (error) {
     res
       .status("412")
